@@ -61,7 +61,7 @@ const FALLBACK_CONFIG = [
     {
       id: 'S7',
       title: 'Address details',
-      text: "Yakapa Urgent! This will be the last one!, Please enter your india address details!",
+      text: "Last Question!, Please enter your complete address!",
       type: 'text',
       next: 'S8'
     },
@@ -324,6 +324,7 @@ function scrollToBottom() {
 
 // Start
 init();
+
 
 
 
