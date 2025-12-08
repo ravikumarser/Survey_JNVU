@@ -7,7 +7,7 @@ const FALLBACK_CONFIG = [
     {
         id: 'S1',
         title: 'Greeting & Identification',
-        text: "Hello, Friend! Ready for the upcoming event? Before we dive in, what's your full name?",
+        text: "Hello, Friend! Ready for the upcoming Alumini Meet? Before we dive in, what's your full name?",
         type: 'text',
         required: true,
         next: 'S2'
@@ -63,27 +63,85 @@ let isSubmitting = false;
 const chatMessages = document.getElementById('chat-messages');
 const inputArea = document.getElementById('input-area');
 
+// Cache Config
+const CONFIG_CACHE_KEY = 'survey_app_config_v1';
+const FETCH_TIMEOUT_MS = 3000; // 3 seconds timeout for first load
+
 // Initialize
 async function init() {
     showTypingIndicator();
 
     try {
-        // Try to fetch config from backend
-        // Note: This might fail due to CORS if not deployed correctly or if using 'exec' endpoint without proper setup
-        // For this demo, we'll use fallback if fetch fails or if URL is placeholder
-        if (APPS_SCRIPT_URL.includes('PLACEHOLDER')) {
-            throw new Error('Using placeholder URL');
-        }
-
-        const response = await fetch(APPS_SCRIPT_URL);
-        questions = await response.json();
+        await loadConfig();
     } catch (e) {
-        console.log('Using fallback config:', e);
+        console.error("Critical initialization error", e);
         questions = FALLBACK_CONFIG;
     }
 
     removeTypingIndicator();
     startConversation();
+}
+
+async function loadConfig() {
+    // 1. Try Cache First (Stale-While-Revalidate)
+    const cached = localStorage.getItem(CONFIG_CACHE_KEY);
+    if (cached) {
+        try {
+            questions = JSON.parse(cached);
+            console.log('Loaded config from cache');
+
+            // Trigger background update (non-blocking)
+            fetchConfig(false).then(updated => {
+                if (updated) console.log('Background config update completed');
+            }).catch(err => console.warn('Background update failed', err));
+
+            return; // Exit successfully using cache
+        } catch (e) {
+            console.warn('Corrupt cache, clearing', e);
+            localStorage.removeItem(CONFIG_CACHE_KEY);
+        }
+    }
+
+    // 2. Fetch if no cache (with timeout)
+    const fetched = await fetchConfig(true);
+    if (fetched) return;
+
+    // 3. Fallback if fetch failed and no cache
+    console.log('Using fallback config due to fetch failure/timeout');
+    questions = FALLBACK_CONFIG;
+}
+
+// Helper to fetch with timeout
+async function fetchConfig(isBlocking) {
+    if (APPS_SCRIPT_URL.includes('PLACEHOLDER')) return false;
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+
+    try {
+        const response = await fetch(APPS_SCRIPT_URL, {
+            signal: isBlocking ? controller.signal : null // Only abort blocking requests
+        });
+        clearTimeout(timeoutId);
+
+        if (!response.ok) throw new Error('Network response was not ok');
+
+        const data = await response.json();
+
+        // Update state and cache
+        questions = data;
+        localStorage.setItem(CONFIG_CACHE_KEY, JSON.stringify(data));
+        return true;
+    } catch (error) {
+        if (error.name === 'AbortError') {
+            console.warn('Config fetch timed out');
+        } else {
+            console.warn('Config fetch error:', error);
+        }
+        return false;
+    } finally {
+        clearTimeout(timeoutId);
+    }
 }
 
 function startConversation() {
