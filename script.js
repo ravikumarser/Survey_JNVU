@@ -4,52 +4,72 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxFLRNtzwEVmrTp
 
 // Fallback config for initial load/demo if API fails or URL not set
 const FALLBACK_CONFIG = [
-    {
-        id: 'S1',
-        title: 'Greeting & Identification',
-        text: "Hello, Friend! Ready for the upcoming Alumini Meet? Before we dive in, Please provide your full name",
-        type: 'text',
-        required: true,
-        next: 'S2'
+   {
+      id: 'S1',
+      title: 'Greeting & Identification',
+      text: "Hello, Friend! Ready for the upcoming Alumini Meet? Before we dive in, Please provide your full name",
+      type: 'text',
+      required: true,
+      next: 'S2'
     },
     {
-        id: 'S2',
-        title: 'The RSVP',
-        text: "Awesome. Can we count you in for the big day?",
-        type: 'choice',
+      id: 'S2',
+      title: 'Mobile Number',
+      text: "Hello, Hegidira ? Please enter your valid mobile number to record",
+      type: 'number',
+      required: true,
+      next: 'S3'
+      
+    },
+    {
+      id: 'S3',
+      title: 'T-Shirt Size',
+      text: "Awesome. Provide your T-Shirt Size (Medium,Large,Extra Large)",
+      type: 'text',
+      required: true,
+      next: 'S4'
+    },
+    {
+      id: 'S4',
+      title: 'Confirmation',
+      text: "Got it. Are you attending this event?",
+      type: 'choice',
         options: ['Yes', 'No'],
         next: {
-            'Yes': 'S3',
-            'No': 'S6'
+            'Yes': 'S5',
+            'No': 'S7'
         }
     },
     {
-        id: 'S3',
-        title: 'Details - Guests',
-        text: "Fantastic! How many extra guests (if any) will you be bringing?",
-        type: 'number',
-        next: 'S4'
+      id: 'S5',
+      title: 'pick up',
+      text: "Awesome!, Do you need a pick up?",
+      type: 'choice',
+        options: ['Yes', 'No'],
+        next: {
+            'Yes': 'S6',
+            'No': 'S7'
+        }
     },
     {
-        id: 'S4',
-        title: 'Details - Meal',
-        text: "Got it. For your main meal, what's your preference?",
-        type: 'choice',
-        options: ['Chicken', 'Veg', 'Vegan'],
-        next: 'S5'
+      id: 'S6',
+      title: 'pick point',
+      text: "Please provide the pickup point along with city details",
+      type: 'text',
+      next: 'S7'
     },
     {
-        id: 'S5',
-        title: 'Final Fun Question',
-        text: "Last thing! Tell us one fun fact or a favorite memory about the host!",
-        type: 'text',
-        next: 'S6'
+      id: 'S7',
+      title: 'Address details',
+      text: "Yakapa Urgent! This will be the last one!, Please enter your india address details!",
+      type: 'text',
+      next: 'S8'
     },
     {
-        id: 'S6',
-        title: 'Thank You & Submit',
-        text: "You're All Set! Thank you for the RSVP. We can't wait to see you!",
-        type: 'end'
+      id: 'S8',
+      title: 'Thank You & Submit',
+      text: "You're All Set! Thank you for taking your time - JNVU milana 2025. We can't wait to see you!",
+      type: 'end'
     }
 ];
 
@@ -304,4 +324,5 @@ function scrollToBottom() {
 
 // Start
 init();
+
 
