@@ -39,6 +39,8 @@ body {
     color: var(--text-color);
     line-height: 1.5;
     height: 100vh;
+    height: 100dvh;
+    /* Mobile viewport height fix */
     display: flex;
     flex-direction: column;
 }
@@ -76,6 +78,8 @@ body {
     align-items: center;
     gap: 1.5rem;
     width: 100%;
+    flex-wrap: wrap;
+    /* Allow wrapping on very small screens */
 }
 
 .logo-icon {
@@ -92,6 +96,22 @@ body {
     flex-shrink: 0;
 }
 
+.logo-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+}
+
+.logo-subtext {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
 .header-text {
     flex: 1;
 }
@@ -105,16 +125,28 @@ body {
     background-clip: text;
     color: transparent;
     letter-spacing: -0.02em;
-    margin-bottom: 0.1rem;
+    margin-bottom: 0;
     text-shadow: 0 2px 10px rgba(129, 140, 248, 0.3);
+    white-space: nowrap;
+    /* Ensure single line */
 }
 
 .header-text h2 {
-    font-size: 1rem;
-    font-weight: 500;
-    color: var(--text-muted);
-    letter-spacing: 0.05em;
+    font-size: 1.25rem;
+    /* Larger */
+    font-weight: 800;
+    /* Bold */
+    color: #fff;
+    /* Bright */
+    background: linear-gradient(to right, #ffffff, #e0e7ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
+    text-align: left;
+    filter: drop-shadow(0 0 8px rgba(129, 140, 248, 0.6));
+    /* Glow */
 }
 
 .header-date {
@@ -226,6 +258,8 @@ button.send-btn {
     width: auto;
     height: auto;
     padding: 0.75rem 1.5rem;
+    min-height: 44px;
+    /* Accessibility standard */
     border-radius: var(--radius-full);
     display: flex;
     align-items: center;
@@ -258,7 +292,12 @@ button.send-btn svg {
 }
 
 .choice-btn {
-    padding: 0.75rem 1.5rem;
+    padding: 0.85rem 1.75rem;
+    /* Larger touch target */
+    min-height: 44px;
+    /* Accessibility standard */
+    display: flex;
+    align-items: center;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(129, 140, 248, 0.5);
     color: #818cf8;
@@ -312,10 +351,52 @@ button.send-btn svg {
     overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     border: var(--glass-border);
-    width: 250px;
+    width: 100%;
+    max-width: 250px;
+    /* Cap width on larger screens */
     height: 120px;
     flex-shrink: 0;
     transition: transform 0.3s ease;
+}
+
+@media (max-width: 480px) {
+    .map-container {
+        max-width: 100%;
+        /* Full width on mobile */
+    }
+
+    .logo-container {
+        gap: 1rem;
+        justify-content: center;
+        /* Center on mobile if wrapping happens */
+    }
+
+    .header-text {
+        text-align: center;
+        /* Center text on mobile */
+        width: 100%;
+    }
+
+    .header-text h2 {
+        text-align: center;
+    }
+
+    .logo-icon {
+        width: 48px;
+        height: 48px;
+    }
+
+    .header-text h1 {
+        font-size: 1.25rem;
+    }
+
+    .app-header {
+        padding: 0.75rem 1rem;
+    }
+
+    .chat-messages {
+        padding: 1rem;
+    }
 }
 
 .map-container:hover {
