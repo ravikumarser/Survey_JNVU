@@ -25,8 +25,8 @@ const FALLBACK_CONFIG = [
       id: 'S3',
       title: 'T-Shirt Size',
       text: "Awesome. Provide your T-Shirt Size (Medium,Large,Extra Large)",
-      type: 'text',
-      required: true,
+      type: 'choice',
+      options: ['Small', 'Medium', 'Large','Extra-Large'],
       next: 'S4'
     },
     {
@@ -324,5 +324,6 @@ function scrollToBottom() {
 
 // Start
 init();
+
 
 
