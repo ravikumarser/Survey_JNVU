@@ -7,7 +7,7 @@ const FALLBACK_CONFIG = [
     {
         id: 'S1',
         title: 'Greeting & Identification',
-        text: "Hello, Friend! Ready for the upcoming Alumini Meet? Before we dive in, what's your full name?",
+        text: "Hello, Friend! Ready for the upcoming Alumini Meet? Before we dive in, Please provide your full name",
         type: 'text',
         required: true,
         next: 'S2'
@@ -304,3 +304,4 @@ function scrollToBottom() {
 
 // Start
 init();
+
