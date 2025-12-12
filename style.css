@@ -343,7 +343,7 @@ button.send-btn:hover svg {
     text-align: center;
     font-size: 0.65rem;
     color: var(--text-muted);
-    opacity: 0.8;
+    opacity: 1;
     width: 100%;
 }
 
@@ -482,3 +482,4 @@ button.send-btn:hover svg {
         border: var(--glass-border);
     }
 }
+
