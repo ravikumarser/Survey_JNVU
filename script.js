@@ -37,7 +37,7 @@ const FALLBACK_CONFIG = [
         options: ['Yes', 'No'],
         next: {
             'Yes': 'S5',
-            'No': 'S7'
+            'No': 'S8'
         }
     },
     {
@@ -56,17 +56,26 @@ const FALLBACK_CONFIG = [
       title: 'pick point',
       text: "Please provide the pickup point along with city details",
       type: 'text',
-      next: 'S7'
-    },
-    {
-      id: 'S7',
-      title: 'Address details',
-      text: "Last Question!, Please enter your complete address!",
-      type: 'text',
       next: 'S8'
     },
     {
+      id: 'S7',
+      title: 'Ready to Pick-up friend',
+      text: "Are you ready to grab your friends? How many people fit in your car?",
+      type: 'choice',
+      options: ['None', '1', '2','3'],
+      next: 'S8'
+    },
+
+    {
       id: 'S8',
+      title: 'Address details',
+      text: "Last Question!, Please enter your complete address!",
+      type: 'text',
+      next: 'S9'
+    },
+    {
+      id: 'S9',
       title: 'Thank You & Submit',
       text: "You're All Set! Thank you for taking your time - JNVU milana 2025. We can't wait to see you!",
       type: 'end'
@@ -324,6 +333,7 @@ function scrollToBottom() {
 
 // Start
 init();
+
 
 
 
